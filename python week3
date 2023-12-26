@@ -1,0 +1,97 @@
+class ToDoList:
+    def __init__(self):
+        self.tasks = {}
+        self.completed_tasks = {}
+
+    def add_task(self, task_description, due_date=None, priority=None):
+        task_id = len(self.tasks) + 1
+        task_details = {"description": task_description, "due_date": due_date, "priority": priority}
+        self.tasks[task_id] = task_details
+        print(f"Task {task_id} added to the to-do list.")
+
+    def display_tasks(self):
+        print("\nTO-DO LIST:")
+        for task_id, details in self.tasks.items():
+            print(f"{task_id}. Description: {details['description']}, Due Date: {details['due_date']}, Priority: {details['priority']}")
+
+        print("\nCOMPLETED TASKS:")
+        for task_id, details in self.completed_tasks.items():
+            print(f"{task_id}. Description: {details['description']}, Due Date: {details['due_date']}, Priority: {details['priority']}")
+
+    def complete_task(self, task_id):
+        if task_id in self.tasks:
+            task_details = self.tasks.pop(task_id)
+            self.completed_tasks[task_id] = task_details
+            print(f"Task {task_id} marked as completed.")
+        else:
+            print("Task not found.")
+
+    def update_task(self, task_id, new_description=None, new_due_date=None, new_priority=None):
+        if task_id in self.tasks:
+            task_details = self.tasks[task_id]
+            if new_description:
+                task_details['description'] = new_description
+            if new_due_date:
+                task_details['due_date'] = new_due_date
+            if new_priority:
+                task_details['priority'] = new_priority
+            print(f"Task {task_id} updated.")
+        else:
+            print("Task not found.")
+
+    def remove_task(self, task_id):
+        if task_id in self.tasks:
+            self.tasks.pop(task_id)
+            print(f"Task {task_id} removed from the to-do list.")
+        else:
+            print("Task not found.")
+
+
+def main():
+    todo_list = ToDoList()
+
+    while True:
+        print("\n===== TO-DO LIST APPLICATION =====")
+        print("1. Add Task")
+        print("2. Display Tasks")
+        print("3. Complete Task")
+        print("4. Update Task")
+        print("5. Remove Task")
+        print("0. Exit")
+
+        choice = input("Enter your choice (0-5): ")
+
+        if choice == "1":
+            description = input("Enter task description: ")
+            due_date = input("Enter due date (optional): ")
+            priority = input("Enter priority (optional): ")
+            todo_list.add_task(description, due_date, priority)
+
+        elif choice == "2":
+            todo_list.display_tasks()
+
+        elif choice == "3":
+            task_id = int(input("Enter the task ID to mark as completed: "))
+            todo_list.complete_task(task_id)
+
+        elif choice == "4":
+            task_id = int(input("Enter the task ID to update: "))
+            new_description = input("Enter new description (press Enter to skip): ")
+            new_due_date = input("Enter new due date (press Enter to skip): ")
+            new_priority = input("Enter new priority (press Enter to skip): ")
+            todo_list.update_task(task_id, new_description, new_due_date, new_priority)
+
+        elif choice == "5":
+            task_id = int(input("Enter the task ID to remove: "))
+            todo_list.remove_task(task_id)
+
+        elif choice == "0":
+            print("Exiting the application. Goodbye!")
+            break
+
+        else:
+            print("Invalid choice. Please enter a number between 0 and 5.")
+
+
+if __name__ == "__main__":
+    main()
